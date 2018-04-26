@@ -14,16 +14,17 @@
 //#include "MapGenerator.h"
 
 #define PORT 10000
+Map maps[10];
 
 void * thread(void * th) {
 
 	int csock = *(int*) th;
 	char buffer[256];
 
-	// Réception de la requête
+	// Rï¿½ception de la requï¿½te
 	recv(csock, buffer, sizeof(buffer), 0);
 
-	// Pour savoir quel type de carte est demandé
+	// Pour savoir quel type de carte est demandï¿½
 	char *token = strtok(buffer, " ");
 
 	if (strcmp(token, "default") == 0) {
@@ -33,7 +34,7 @@ void * thread(void * th) {
 		if(send(csock, (void*)&maps[rand], sizeof(maps[rand]), 0) < 0) {
 			printf("ERROR : envoi de la carte");
 		} else {
-			printf("SUCCESS : carte envoyée");
+			printf("SUCCESS : carte envoyï¿½e");
 		}
 
 	} else if (strcmp(token, "random") == 0) {
@@ -43,11 +44,11 @@ void * thread(void * th) {
 		if(send(csock, (void*)&map, sizeof(map), 0) < 0) {
 			printf("ERROR : envoi de la carte");
 		} else {
-			printf("SUCCESS : carte envoyée");
+			printf("SUCCESS : carte envoyï¿½e");
 		}
 
 	} else {
-		char buffError[128] = "Requête incorrecte !";
+		char buffError[128] = "Requï¿½te incorrecte !";
 		printf("%s\n", buffError);
 		send(csock, buffError, 128, 0);
 	}
@@ -60,6 +61,9 @@ int main(void) {
 
 	pthread_t thr;
 
+	/* Generation of the default maps */
+	defaultMapGeneration();
+
 	/* Socket et contexte d'adressage du serveur */
 	struct sockaddr_in sin;
 	int serverSocket;
@@ -70,7 +74,7 @@ int main(void) {
 	int clientSocket;
 	socklen_t crecsize = sizeof(csin);
 
-	/* Création d'une socket */
+	/* Crï¿½ation d'une socket */
 	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 
 	/* Configuration */
@@ -79,13 +83,13 @@ int main(void) {
 	sin.sin_port = htons(PORT); /* Listage du port */
 	bind(serverSocket, (struct sockaddr*) &sin, recsize);
 
-	/* Démarrage du listage */
+	/* Dï¿½marrage du listage */
 	listen(serverSocket, 15);
 
 	while (1) {
 		/* Attente d'une connexion client */
 		clientSocket = accept(serverSocket, (struct sockaddr*) &csin, &crecsize);
-		printf("Un client est connecté avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
+		printf("Un client est connectï¿½ avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
 
 		pthread_create(&thr, NULL, thread, (void *) &clientSocket);
 		pthread_detach(thr);
@@ -95,4 +99,33 @@ int main(void) {
 	close(serverSocket);
 
 	return EXIT_SUCCESS;
+}
+
+void defaultMapsGeneration(){
+	Position m1 = {9, 1};
+	Position m2 = {9, 2};
+	Position m3 = {9, 3};
+	Position m4 = {9, 7};
+	Position m5 = {9, 8};
+	Position m6 = {9, 9};
+	Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
+	Position thebes1 = {10 , 5};
+	Position oedipe1 = {6, 5};
+	Position sphinx1 = {0, 5};
+	ObjectPosition op1 = {5, mercenaries1, thebes1, oedipe1, sphinx1};
+	Map map1 = {{
+		    {0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+			{0, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+			{2, 2, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 2, 0, 0, 1, 0, 1, 0, 0, 0},
+			{0, 2, 0, 0, 1, 0, 1, 0, 0, 0},
+			{0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 2, 2, 2, 2, 2, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+			},
+			op1
+			};
+	maps[0] = map1;
 }
