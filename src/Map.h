@@ -7,3 +7,4 @@ typedef struct
 	int * matrix[];
 	ObjectivePosition objPos;
 } Map;
+

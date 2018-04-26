@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+//#include "Map.h"
+#include "MapGenerator."
 
 #define PORT 10000
 
