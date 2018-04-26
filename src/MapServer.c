@@ -113,7 +113,7 @@ void defaultMapsGeneration(){
 	Position oedipe1 = {6, 5};
 	Position sphinx1 = {0, 5};
 	ObjectPosition op1 = {5, mercenaries1, thebes1, oedipe1, sphinx1};
-	Map map1 = {{
+	Map map1[10][10] = {{
 		    {0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
 			{0, 2, 0, 0, 0, 0, 0, 0, 0, 0},
 			{2, 2, 0, 0, 0, 0, 0, 0, 0, 0},
