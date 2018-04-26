@@ -9,8 +9,9 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <time.h>
 //#include "Map.h"
-#include "MapGenerator."
+//#include "MapGenerator.h"
 
 #define PORT 10000
 
@@ -26,9 +27,25 @@ void * thread(void * th) {
 	char *token = strtok(buffer, " ");
 
 	if (strcmp(token, "default") == 0) {
-		// TO DO
+
+		int rand = rand_a_b(0,5);
+
+		if(send(csock, (void*)&maps[rand], sizeof(maps[rand]), 0) < 0) {
+			printf("ERROR : envoi de la carte");
+		} else {
+			printf("SUCCESS : carte envoyée");
+		}
+
 	} else if (strcmp(token, "random") == 0) {
-		// TO DO
+		
+		MapGenerator map; // APPELER LA FONCTION
+
+		if(send(csock, (void*)&map, sizeof(map), 0) < 0) {
+			printf("ERROR : envoi de la carte");
+		} else {
+			printf("SUCCESS : carte envoyée");
+		}
+
 	} else {
 		char buffError[128] = "Requête incorrecte !";
 		printf("%s\n", buffError);
