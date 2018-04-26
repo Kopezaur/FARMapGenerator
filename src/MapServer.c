@@ -84,15 +84,15 @@ int main(void) {
 
 	while (1) {
 		/* Attente d'une connexion client */
-		clientSock = accept(serverSock, (struct sockaddr*) &csin, &crecsize);
+		clientSocket = accept(serverSocket, (struct sockaddr*) &csin, &crecsize);
 		printf("Un client est connecté avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
 
-		pthread_create(&thr, NULL, thread, (void *) &csock);
+		pthread_create(&thr, NULL, thread, (void *) &clientSocket);
 		pthread_detach(thr);
 	}
 
 	/* Fermeture de la socket serveur */
-	close(server_socket);
+	close(serverSocket);
 
 	return EXIT_SUCCESS;
 }
