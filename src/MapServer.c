@@ -21,18 +21,12 @@ void * thread(void * th) {
 	recv(csock, buffer, sizeof(buffer), 0);
 
 	// Pour savoir quel type de carte est demandé
-	char *token = strtok(buffer, "/");
+	char *token = strtok(buffer, " ");
 
-	if (strcmp(token, "connexion") == 0) {
-
-		token = strtok(NULL, "");
-
-		if (strcmp(token, "GENERATED") == 0) {
-			// TO DO
-		} else if (strcmp(token, "SAVED") == 0) {
-			// TO DO
-		}
-
+	if (strcmp(token, "default") == 0) {
+		// TO DO
+	} else if (strcmp(token, "random") == 0) {
+		// TO DO
 	} else {
 		char buffError[128] = "Requête incorrecte !";
 		printf("%s\n", buffError);
