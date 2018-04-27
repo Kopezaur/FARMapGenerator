@@ -10,8 +10,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
-//#include "Map.h"
-//#include "MapGenerator.h"
+#include "Map.h"
+#include "MapGenerator.h"
 
 #define PORT 10000
 Map maps[10];
@@ -62,7 +62,7 @@ int main(void) {
 	pthread_t thr;
 
 	/* Generation of the default maps */
-	defaultMapGeneration();
+	defaultMapsGeneration();
 
 	/* Socket et contexte d'adressage du serveur */
 	struct sockaddr_in sin;
