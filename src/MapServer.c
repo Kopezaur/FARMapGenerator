@@ -14,7 +14,7 @@
 #include "MapGenerator.h"
 
 #define PORT 10000
-Map maps[10];
+struct Map maps[10];
 
 void * thread(void * th) {
 
@@ -39,7 +39,8 @@ void * thread(void * th) {
 
 	} else if (strcmp(token, "random") == 0) {
 		
-		MapGenerator map; // APPELER LA FONCTION
+		//MapGenerator map; // APPELER LA FONCTION
+		struct Map map;
 
 		if(send(csock, (void*)&map, sizeof(map), 0) < 0) {
 			printf("ERROR : envoi de la carte");
@@ -102,18 +103,18 @@ int main(void) {
 }
 
 void defaultMapsGeneration(){
-	Position m1 = {9, 1};
-	Position m2 = {9, 2};
-	Position m3 = {9, 3};
-	Position m4 = {9, 7};
-	Position m5 = {9, 8};
-	Position m6 = {9, 9};
-	Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
-	Position thebes1 = {10 , 5};
-	Position oedipe1 = {6, 5};
-	Position sphinx1 = {0, 5};
-	ObjectPosition op1 = {5, mercenaries1, thebes1, oedipe1, sphinx1};
-	Map map1[10][10] = {{
+	struct Position m1 = {9, 1};
+	struct Position m2 = {9, 2};
+	struct Position m3 = {9, 3};
+	struct Position m4 = {9, 7};
+	struct Position m5 = {9, 8};
+	struct Position m6 = {9, 9};
+	struct Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
+	struct Position thebes1 = {10 , 5};
+	struct Position oedipe1 = {6, 5};
+	struct Position sphinx1 = {0, 5};
+	struct ObjectPosition op1 = {5, mercenaries1, thebes1, oedipe1, sphinx1};
+	struct Map map1[10][10] = {{
 		    {0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
 			{0, 2, 0, 0, 0, 0, 0, 0, 0, 0},
 			{2, 2, 0, 0, 0, 0, 0, 0, 0, 0},
