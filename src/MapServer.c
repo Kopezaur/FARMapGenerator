@@ -69,7 +69,7 @@ void defaultMapsGeneration(void) {
 							{ 0, 0, 0, 2, 2, 2, 2, 2, 0, 0 },
 							{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 							{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-	struct Map map1[10][10] = { matrix1, op1 };
+	struct Map map1 = { matrix1, op1 };
 	maps[0] = map1;
 }
 
