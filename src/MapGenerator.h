@@ -6,6 +6,6 @@
 
 int size, walls, water, i, j, map[SIZE][SIZE];
 
-static func generate(size: int, walls:int, water:int){
+//static func generate(size: int, walls:int, water:int){
 
-}
+//}
