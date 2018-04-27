@@ -48,17 +48,17 @@ struct Map maps[10];
 //}
 
 void defaultMapsGeneration(void) {
-	struct Position m1 = { 9, 1 };
-	struct Position m2 = { 9, 2 };
-	struct Position m3 = { 9, 3 };
-	struct Position m4 = { 9, 7 };
-	struct Position m5 = { 9, 8 };
-	struct Position m6 = { 9, 9 };
-	struct Position mercenaries1[6] = { m1, m2, m3, m4, m5, m6 };
-	struct Position thebes1 = { 10, 5 };
-	struct Position oedipe1 = { 6, 5 };
-	struct Position sphinx1 = { 0, 5 };
-	struct ObjectivePosition op1 = { 5, mercenaries1, thebes1, oedipe1, sphinx1 };
+	struct Position m1 = {9, 1};
+	struct Position m2 = {9, 2};
+	struct Position m3 = {9, 3};
+	struct Position m4 = {9, 7};
+	struct Position m5 = {9, 8};
+	struct Position m6 = {9, 9};
+	struct Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
+	struct Position thebes1 = {10, 5};
+	struct Position oedipe1 = {6, 5};
+	struct Position sphinx1 = {0, 5};
+	struct ObjectivePosition op1 = { .nbVillager = 5, .mercenaires = mercenaries1, .thebes = thebes1, .oedipe = oedipe1, .sphinx = sphinx1 };
 	int matrix1[10][10] = { { 0, 0, 0, 0, 0, 0, 2, 2, 2, 2 }, 
 							{ 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 }, 
 							{ 2, 2, 0, 0, 0, 0, 0, 0, 0, 0 },
