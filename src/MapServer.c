@@ -58,7 +58,7 @@ void defaultMapsGeneration(void) {
 	struct Position thebes1 = { 10, 5 };
 	struct Position oedipe1 = { 6, 5 };
 	struct Position sphinx1 = { 0, 5 };
-	struct ObjectPosition op1 = { 5, mercenaries1, thebes1, oedipe1, sphinx1 };
+	struct ObjectivePosition op1 = { 5, mercenaries1, thebes1, oedipe1, sphinx1 };
 	int matrix1[10][10] = { { 0, 0, 0, 0, 0, 0, 2, 2, 2, 2 }, 
 							{ 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 }, 
 							{ 2, 2, 0, 0, 0, 0, 0, 0, 0, 0 },
