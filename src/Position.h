@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Position{
+typedef struct Position
+{
     int x;
     int y;
 

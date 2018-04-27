@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "Position.h"
 
-typedef struct ObjectivePosition{
+typedef struct ObjectivePosition
+{
     int nbVillager;
     struct Position mercenaires[6];
     Position thebes;
