@@ -3,18 +3,49 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <pthread.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
-//#include "Map.h"
-#include "MapGenerator.h"
 
 #define PORT 10000
+
+// ----- Structures
+
+struct Position
+{
+    int x;
+    int y;
+};
+
+struct ObjectivePosition
+{
+    int nbVillager;
+    struct Position mercenaires[6];
+    struct Position thebes;
+    struct Position oedipe;
+    struct Position sphinx;
+};
+
+struct Map
+{
+	int * matrix[10][10];
+	struct ObjectivePosition objPos;
+};
+
+// ----- Variables globales
+
 struct Map maps[10];
+
+
+// ----- Fonctions
+
+//static func generate(size: int, walls:int, water:int){
+
+//}
 
 void defaultMapsGeneration(void) {
 	struct Position m1 = {9, 1};
@@ -84,6 +115,8 @@ void * thread(void * th) {
 	pthread_exit(0);
 	close(csock);
 }
+
+// ----- Main fonction
 
 int main(void) {
 
