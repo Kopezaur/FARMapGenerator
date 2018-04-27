@@ -29,9 +29,9 @@ void * thread(void * th) {
 
 	if (strcmp(token, "default") == 0) {
 
-		int rand = rand_a_b(0,5);
+		int r = rand() % 6;
 
-		if(send(csock, (void*)&maps[rand], sizeof(maps[rand]), 0) < 0) {
+		if(send(csock, (void*)&maps[r], sizeof(maps[r]), 0) < 0) {
 			printf("ERROR : envoi de la carte");
 		} else {
 			printf("SUCCESS : carte envoy�e");
@@ -102,7 +102,7 @@ int main(void) {
 	return EXIT_SUCCESS;
 }
 
-void defaultMapsGeneration(){
+void func defaultMapsGeneration(void){
 	struct Position m1 = {9, 1};
 	struct Position m2 = {9, 2};
 	struct Position m3 = {9, 3};
