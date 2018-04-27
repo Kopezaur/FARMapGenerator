@@ -110,7 +110,7 @@ void defaultMapsGeneration(){
 	struct Position m5 = {9, 8};
 	struct Position m6 = {9, 9};
 	struct Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
-	struct Position thebes1 = {10 , 5};
+	struct Position thebes1 = {10, 5};
 	struct Position oedipe1 = {6, 5};
 	struct Position sphinx1 = {0, 5};
 	struct ObjectPosition op1 = {5, mercenaries1, thebes1, oedipe1, sphinx1};

@@ -5,6 +5,6 @@
 struct Map
 {
 	int * matrix[][];
-	ObjectivePosition objPos;
+	struct ObjectivePosition objPos;
 };
 

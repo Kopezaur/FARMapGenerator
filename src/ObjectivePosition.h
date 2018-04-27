@@ -6,7 +6,7 @@ struct ObjectivePosition
 {
     int nbVillager;
     struct Position mercenaires[6];
-    Position thebes;
-    Position oedipe;
-    Position sphinx;
+    struct Position thebes;
+    struct Position oedipe;
+    struct Position sphinx;
 };
