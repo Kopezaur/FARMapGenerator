@@ -4,7 +4,7 @@
 
 struct Map
 {
-	int * matrix[][];
+	int * matrix[10][10];
 	struct ObjectivePosition objPos;
 };
 
