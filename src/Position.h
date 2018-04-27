@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Position
+struct Position
 {
     int x;
     int y;

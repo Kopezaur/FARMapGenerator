@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "ObjectivePosition.h"
 
-typedef struct Map
+struct Map
 {
-	int * matrix[];
+	int * matrix[][];
 	ObjectivePosition objPos;
 };
 
