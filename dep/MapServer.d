@@ -1,1 +1,1 @@
-obj/MapServer.o: src/MapServer.c
+obj/MapServer.o: src/MapServer.c src/MapServer.h

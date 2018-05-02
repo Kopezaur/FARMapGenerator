@@ -66,10 +66,8 @@ void defaultMapsGeneration(void) {
             { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
         };
 
-    int i;
-    int j;
-    for(i = 0; i<15; i++){
-        for(j = 0; j < 15; j++){
+    for(int i = 0; i<15; i++){
+        for(int j = 0; j < 15; j++){
             map1.matrix[i][j] = mapGrid[i][j];
         }
     }
@@ -125,53 +123,9 @@ void defaultMapsGeneration(void) {
     maps[0] = map1;
 }
 
-void * thread(void * th) {
-
-	int csock = *(int*) th;
-	char buffer[256];
-
-	// R�ception de la requ�te
-	recv(csock, buffer, sizeof(buffer), 0);
-
-	// Pour savoir quel type de carte est demand�
-	char *token = strtok(buffer, " ");
-
-	if (strcmp(token, "default") == 0) {
-
-		int r = rand() % 6;
-
-		if(send(csock, (void*)&maps[r], sizeof(maps[r]), 0) < 0) {
-			printf("ERROR : envoi de la carte");
-		} else {
-			printf("SUCCESS : carte envoyee");
-		}
-
-	} else if (strcmp(token, "random") == 0) {
-		
-		//MapGenerator map; // APPELER LA FONCTION
-		Map map;
-
-		if(send(csock, (void*)&map, sizeof(map), 0) < 0) {
-			printf("ERROR : envoi de la carte");
-		} else {
-			printf("SUCCESS : carte envoyee");
-		}
-
-	} else {
-		char buffError[128] = "Requete incorrecte !";
-		printf("%s\n", buffError);
-		send(csock, buffError, 128, 0);
-	}
-
-	pthread_exit(0);
-	close(csock);
-}
-
 // ----- Main fonction
 
 int main(void) {
-
-	pthread_t thr;
 
 	/* Generation of the default maps */
 	defaultMapsGeneration();
@@ -203,11 +157,47 @@ int main(void) {
 		clientSocket = accept(serverSocket, (struct sockaddr*) &csin, &crecsize);
 		printf("Un client est connecte avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
 
-		pthread_create(&thr, NULL, thread, (void *) &clientSocket);
-		pthread_detach(thr);
+		/*pthread_create(&thr, NULL, thread, (void *) &clientSocket);
+		pthread_detach(thr);*/
+
+		char buffer[256];
+
+		// R�ception de la requ�te
+		recv(clientSocket, buffer, sizeof(buffer), 0);
+
+		// Pour savoir quel type de carte est demand�
+		char *token = strtok(buffer, " ");
+
+		if (strcmp(token, "default") == 0) {
+
+			//int r = rand() % 6;
+
+			if(sendto(clientSocket, &maps[0], sizeof(maps[0]), 0, (struct sockaddr*) &csin, sizeof(csin)) < 0) {
+				printf("ERROR : envoi de la carte\n");
+			} else {
+				printf("SUCCESS : carte envoyee\n");
+			}
+
+		} else if (strcmp(token, "random") == 0) {
+			
+			//MapGenerator map; // APPELER LA FONCTION
+			Map map;
+
+			if(send(clientSocket, (void*)&map, sizeof(map), 0) < 0) {
+				printf("ERROR : envoi de la carte\n");
+			} else {
+				printf("SUCCESS : carte envoyee\n");
+			}
+
+		} else {
+			char buffError[128] = "Requete incorrecte !";
+			printf("%s\n", buffError);
+			send(clientSocket, buffError, 128, 0);
+		}
 	}
 
-	/* Fermeture de la socket serveur */
+	/* Fermeture de la socket serveur et client*/
+	close(clientSocket);
 	close(serverSocket);
 
 	return EXIT_SUCCESS;
