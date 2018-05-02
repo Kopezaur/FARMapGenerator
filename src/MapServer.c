@@ -10,55 +10,28 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
+#include "MapServer.h"
 
-#define PORT 10000
-
-// ----- Structures
-
-struct Position
-{
-    int x;
-    int y;
-};
-
-struct ObjectivePosition
-{
-    int nbVillager;
-    struct Position mercenaires[6];
-    struct Position thebes;
-    struct Position oedipe;
-    struct Position sphinx;
-};
-
-struct Map
-{
-	int matrix[10][10];
-	struct ObjectivePosition objPos;
-};
+#define PORT 7777
 
 // ----- Variables globales
 
-struct Map maps[10];
+Map maps[10];
 
-
-// ----- Fonctions
-
-//static func generate(size: int, walls:int, water:int){
-
-//}
+// ----- 
 
 void defaultMapsGeneration(void) {
-	struct Position m1 = {9, 1};
-	struct Position m2 = {9, 2};
-	struct Position m3 = {9, 3};
-	struct Position m4 = {9, 7};
-	struct Position m5 = {9, 8};
-	struct Position m6 = {9, 9};
-	struct Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
-	struct Position thebes1 = {10, 5};
-	struct Position oedipe1 = {6, 5};
-	struct Position sphinx1 = {0, 5};
-	struct ObjectivePosition op1 = { .nbVillager = 5, .mercenaires = mercenaries1, .thebes = thebes1, .oedipe = oedipe1, .sphinx = sphinx1 };
+	/*Position m1 = {9, 1};
+	Position m2 = {9, 2};
+	Position m3 = {9, 3};
+	Position m4 = {9, 7};
+	Position m5 = {9, 8};
+	Position m6 = {9, 9};
+	Position mercenaries1[6] = {m1, m2, m3, m4, m5, m6};
+	Position thebes1 = {10, 5};
+	Position oedipe1 = {6, 5};
+	Position sphinx1 = {0, 5};
+	ObjectivePosition op1 = { nbVillager = 5, mercenaires = mercenaries1, thebes = thebes1, oedipe = oedipe1, sphinx = sphinx1 };
 	int matrix1[10][10] = { { 0, 0, 0, 0, 0, 0, 2, 2, 2, 2 }, 
 							{ 0, 2, 0, 0, 0, 0, 0, 0, 0, 0 }, 
 							{ 2, 2, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -69,8 +42,87 @@ void defaultMapsGeneration(void) {
 							{ 0, 0, 0, 2, 2, 2, 2, 2, 0, 0 },
 							{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 							{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-	struct Map map1 = { .matrix = matrix1, .objPos = op1 };
-	maps[0] = map1;
+	Map map1 = { matrix = matrix1, objPos = op1 };
+	maps[0] = map1;*/
+
+	ObjectivePosition positions;
+    Map map1;
+
+    int mapGrid[15][15] = {
+            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+            { 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 },
+            { 2, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2 },
+            { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2 },
+            { 2, 0, 0, 2, 2, 2, 2, 0, 0, 2, 0, 1, 1, 0, 2 },
+            { 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2 },
+            { 2, 0, 0, 0, 0, 0, 2, 0, 0, 2, 2, 2, 0, 0, 2 },
+            { 2, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 0, 2 },
+            { 2, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 0, 2, 0, 2 },
+            { 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 2, 0, 2 },
+            { 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2 },
+            { 2, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 2, 2, 0, 2 },
+            { 2, 0, 0, 2, 0, 0, 0, 0, 1, 1, 0, 2, 2, 0, 2 },
+            { 2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 2 },
+            { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
+        };
+
+    int i;
+    int j;
+    for(i = 0; i<15; i++){
+        for(j = 0; j < 15; j++){
+            map1.matrix[i][j] = mapGrid[i][j];
+        }
+    }
+
+    Position mercenaire1;
+    mercenaire1.x = 1;
+    mercenaire1.y = 1;
+
+    Position mercenaire2;
+    mercenaire2.x = 13;
+    mercenaire2.y = 1;
+
+    Position mercenaire3;
+    mercenaire3.x = 1;
+    mercenaire3.y = 13;
+
+    Position mercenaire4;
+    mercenaire4.x = 5;
+    mercenaire4.y = 5;
+
+    Position mercenaire5;
+    mercenaire5.x = 13;
+    mercenaire5.y = 7;
+
+    Position mercenaire6;
+    mercenaire6.x = 1;
+    mercenaire6.y = 8;
+
+    Position thebes;
+    thebes.x = 5;
+    thebes.y = 7;
+
+    Position oedipe;
+    oedipe.x = 9;
+    oedipe.y = 4;
+
+    Position sphinx;
+    sphinx.x = 2;
+    sphinx.y = 13;
+
+    positions.nbVillager  = 5;
+    positions.mercenaries[0]= mercenaire1;
+    positions.mercenaries[1]= mercenaire2;
+    positions.mercenaries[2]= mercenaire3;
+    positions.mercenaries[3]= mercenaire4;
+    positions.mercenaries[4]= mercenaire5;
+    positions.mercenaries[5]= mercenaire6;
+    positions.thebes        = thebes;
+    positions.oedipe        = oedipe;
+    positions.sphinx        = sphinx;
+
+    map1.objPos = positions;
+    maps[0] = map1;
 }
 
 void * thread(void * th) {
@@ -91,22 +143,22 @@ void * thread(void * th) {
 		if(send(csock, (void*)&maps[r], sizeof(maps[r]), 0) < 0) {
 			printf("ERROR : envoi de la carte");
 		} else {
-			printf("SUCCESS : carte envoy�e");
+			printf("SUCCESS : carte envoyee");
 		}
 
 	} else if (strcmp(token, "random") == 0) {
 		
 		//MapGenerator map; // APPELER LA FONCTION
-		struct Map map;
+		Map map;
 
 		if(send(csock, (void*)&map, sizeof(map), 0) < 0) {
 			printf("ERROR : envoi de la carte");
 		} else {
-			printf("SUCCESS : carte envoy�e");
+			printf("SUCCESS : carte envoyee");
 		}
 
 	} else {
-		char buffError[128] = "Requ�te incorrecte !";
+		char buffError[128] = "Requete incorrecte !";
 		printf("%s\n", buffError);
 		send(csock, buffError, 128, 0);
 	}
@@ -149,7 +201,7 @@ int main(void) {
 	while (1) {
 		/* Attente d'une connexion client */
 		clientSocket = accept(serverSocket, (struct sockaddr*) &csin, &crecsize);
-		printf("Un client est connect� avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
+		printf("Un client est connecte avec la socket %d de %s:%d\n", clientSocket, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
 
 		pthread_create(&thr, NULL, thread, (void *) &clientSocket);
 		pthread_detach(thr);
@@ -160,4 +212,3 @@ int main(void) {
 
 	return EXIT_SUCCESS;
 }
-
