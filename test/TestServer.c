@@ -41,7 +41,7 @@ int main(void) {
 
 	Map map;
 
-	if(recvfrom(sock, &map, sizeof(map), 0, (struct sockaddr*) &sin, sizeof(sin))) {
+	if(recvfrom(sock, &map, sizeof(map), 0, (struct sockaddr*) &sin, (socklen_t*) recsize)) {
 
 		printf("Structure reçue\n");
 
