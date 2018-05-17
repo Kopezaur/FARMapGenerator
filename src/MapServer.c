@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
+#include <assert.h>
 #include "MapServer.h"
 
 #define PORT 7777
@@ -17,8 +18,187 @@
 // ----- Variables globales
 
 Map maps[10];
+int size;
 
-// ----- 
+// ----- Function to generate a random integer between [0, n)
+
+/* Returns an integer in the range [0, n).
+ *
+ * Uses rand(), and so is affected-by/affects the same seed.
+ */
+int randint(int n) {
+      if ((n - 1) == RAND_MAX) {
+        return rand();
+      } else {
+        // Supporting larger values for n would requires an even more
+        // elaborate implementation that combines multiple calls to rand()
+        assert (n <= RAND_MAX);
+
+        // Chop off all of the values that would cause skew...
+        int end = RAND_MAX / n; // truncate skew
+        assert (end > 0);
+        end *= n;
+
+        // ... and ignore results from rand() that fall above that limit.
+        // (Worst case the loop condition should succeed 50% of the time,
+        // so we can expect to bail out of this loop pretty quickly.)
+        int r;
+        while ((r = rand()) >= end);
+
+        return r % n;
+      }
+}
+
+// ----- Function which generates a randomly seeded map
+
+struct Map generateMap(void)
+{
+    // members initialization
+     srand ( time(NULL) );
+    Map m;
+    size = randint(10) + 10;
+    printf("Size = %d\n", size);
+    int walls = randint((size*size)/4);
+    printf("Walls = %d\n", walls);
+    int water = randint((size*size)/10);
+    printf("Water = %d\n", water);
+    int tmatrix[size][size];
+    int x, y;
+    Position mercs[6];
+    Position thebes;
+    Position oedipe;
+    Position sphinx;
+    bool cond = true;
+
+    while(cond){
+        // matrix initialization
+        for(int i=0;i<size;i++) {
+            for(int j=0;j<size;j++) {
+                tmatrix[i][j] = 0;
+                m.matrix[i][j] = 0;
+            }
+        }
+
+        // placement of the default elements
+        //walls
+        for(int i=0;i<walls;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 2;
+        }
+        //water
+        for(int i=0;i<water;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 1;
+        }
+        //mercenaries
+        for(int i=0;i<6;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 3;
+        }
+        //thebes
+        for(int i=0;i<1;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 4;
+        }
+        //oedipe
+        for(int i=0;i<1;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 5;
+        }
+        //sphinx
+        for(int i=0;i<1;i++) {
+            x = randint(size);
+            y = randint(size);
+            while(tmatrix[x][y]!=0){
+                x = randint(size);
+                y = randint(size);
+            }
+            tmatrix[x][y] = 6;
+        }
+	
+		// test print to show all the positions on the generated map
+        printf("The test matrix :\n");
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
+                printf("%d, ", tmatrix[i][j]);
+            }
+            printf("\n");
+        }
+
+        // Assume that the map is valid
+        int noOfMercs = 0;
+        for(int i=0;i<size;i++) {
+            for(int j=0;j<size;j++) {
+                if(tmatrix[i][j] == 3){ // if it's a mercenary
+                    m.matrix[i][j] = 0;
+                    mercs[noOfMercs].x = i;
+                    mercs[noOfMercs].y = j;
+                    noOfMercs++;
+                } else if(tmatrix[i][j] == 4) { // if it's thebes
+                    m.matrix[i][j] = 0;
+                    thebes.x = i;
+                    thebes.y = j;
+                } else if(tmatrix[i][j] == 5) { // if it's oedipe
+                    m.matrix[i][j] = 0;
+                    oedipe.x = i;
+                    oedipe.y = j;
+                } else if(tmatrix[i][j] == 6) { // if it's sphinx
+                    m.matrix[i][j] = 0;
+                    sphinx.x = i;
+                    sphinx.y = j;
+                } else if(tmatrix[i][j] == 2) { // if it's a wall
+                    m.matrix[i][j] = 2;
+                } else if(tmatrix[i][j] == 1) { // if it's water
+                    m.matrix[i][j] = 1;
+                }
+            }
+        }
+
+        // create the auxiliary structure
+        ObjectivePosition positions;
+        positions.nbVillager  = 3; // default of a generated map is 3 mercenaries
+        positions.mercenaries[0]= mercs[0];
+        positions.mercenaries[1]= mercs[1];
+        positions.mercenaries[2]= mercs[2];
+        positions.mercenaries[3]= mercs[3];
+        positions.mercenaries[4]= mercs[4];
+        positions.mercenaries[5]= mercs[5];
+        positions.thebes        = thebes;
+        positions.oedipe        = oedipe;
+        positions.sphinx        = sphinx;
+        // create the main structure of the map
+        m.objPos = positions;
+        cond = false;
+    }
+    return m;
+};
+
+// ----- Function which generates the default maps
 
 void defaultMapsGeneration(void) {
 	/*Position m1 = {9, 1};
