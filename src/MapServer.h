@@ -11,10 +11,12 @@ typedef struct ObjectivePosition
     Position thebes;
     Position oedipe;
     Position sphinx;
+	Position villagers[];
 } ObjectivePosition;
 
 typedef struct Map
 {
 	int matrix[15][15];
+	int mapSize;
 	ObjectivePosition objPos;
 } Map;

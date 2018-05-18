@@ -181,7 +181,7 @@ struct Map generateMap(void)
 
         // create the auxiliary structure
         ObjectivePosition positions;
-        positions.nbVillager  = 3; // default of a generated map is 3 mercenaries
+        positions.nbVillager  = randint(10) + 1; // default of a generated map is 3 mercenaries
         positions.mercenaries[0]= mercs[0];
         positions.mercenaries[1]= mercs[1];
         positions.mercenaries[2]= mercs[2];
@@ -193,6 +193,7 @@ struct Map generateMap(void)
         positions.sphinx        = sphinx;
         // create the main structure of the map
         m.objPos = positions;
+		m.mapSize = size; 
         cond = false;
     }
     return m;
@@ -300,6 +301,7 @@ void defaultMapsGeneration(void) {
     positions.sphinx        = sphinx;
 
     map1.objPos = positions;
+	map1.mapSize = 15;
     maps[0] = map1;
 }
 
