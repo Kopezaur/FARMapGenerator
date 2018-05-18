@@ -62,7 +62,6 @@ struct Map generateMap(void)
     printf("Walls = %d\n", walls);
     int water = randint((size*size)/10);
     printf("Water = %d\n", water);
-    int tmatrix[size][size];
     int x, y;
     Position mercs[6];
     Position thebes;
@@ -74,7 +73,6 @@ struct Map generateMap(void)
         // matrix initialization
         for(int i=0;i<size;i++) {
             for(int j=0;j<size;j++) {
-                tmatrix[i][j] = 0;
                 m.matrix[i][j] = 0;
             }
         }
@@ -84,68 +82,67 @@ struct Map generateMap(void)
         for(int i=0;i<walls;i++) {
             x = randint(size);
             y = randint(size);
-            while(tmatrix[x][y]!=0){
+            while(m.matrix[x][y]!=0){
                 x = randint(size);
                 y = randint(size);
             }
-            tmatrix[x][y] = 2;
+            m.matrix[x][y] = 2;
         }
+		
         //water
         for(int i=0;i<water;i++) {
             x = randint(size);
             y = randint(size);
-            while(tmatrix[x][y]!=0){
+            while(m.matrix[x][y]!=0){
                 x = randint(size);
                 y = randint(size);
             }
-            tmatrix[x][y] = 1;
+            m.matrix[x][y] = 1;
         }
+		
         //mercenaries
         for(int i=0;i<6;i++) {
             x = randint(size);
             y = randint(size);
-            while(tmatrix[x][y]!=0){
+            while(m.matrix[x][y]!=0){
                 x = randint(size);
                 y = randint(size);
             }
-            tmatrix[x][y] = 3;
+            m.matrix[x][y] = 3;
         }
+		
         //thebes
-        for(int i=0;i<1;i++) {
+        x = randint(size);
+        y = randint(size);
+        while(m.matrix[x][y]!=0){
             x = randint(size);
             y = randint(size);
-            while(tmatrix[x][y]!=0){
-                x = randint(size);
-                y = randint(size);
-            }
-            tmatrix[x][y] = 4;
         }
+        m.matrix[x][y] = 4;
+		
         //oedipe
-        for(int i=0;i<1;i++) {
+        x = randint(size);
+        y = randint(size);
+        while(m.matrix[x][y]!=0){
             x = randint(size);
-            y = randint(size);
-            while(tmatrix[x][y]!=0){
-                x = randint(size);
-                y = randint(size);
-            }
-            tmatrix[x][y] = 5;
+			y = randint(size);
         }
+        m.matrix[x][y] = 5;
+		
         //sphinx
-        for(int i=0;i<1;i++) {
+        x = randint(size);
+        y = randint(size);
+        while(m.matrix[x][y]!=0){
             x = randint(size);
             y = randint(size);
-            while(tmatrix[x][y]!=0){
-                x = randint(size);
-                y = randint(size);
-            }
-            tmatrix[x][y] = 6;
         }
+        m.matrix[x][y] = 6;
 	
 		// test print to show all the positions on the generated map
         printf("The test matrix :\n");
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                printf("%d, ", tmatrix[i][j]);
+                printf("%d, ", m.matrix[i][j]);
             }
             printf("\n");
         }
@@ -154,34 +151,30 @@ struct Map generateMap(void)
         int noOfMercs = 0;
         for(int i=0;i<size;i++) {
             for(int j=0;j<size;j++) {
-                if(tmatrix[i][j] == 3){ // if it's a mercenary
+                if(m.matrix[i][j] == 3){ // if it's a mercenary
                     m.matrix[i][j] = 0;
                     mercs[noOfMercs].x = i;
                     mercs[noOfMercs].y = j;
                     noOfMercs++;
-                } else if(tmatrix[i][j] == 4) { // if it's thebes
+                } else if(m.matrix[i][j] == 4) { // if it's thebes
                     m.matrix[i][j] = 0;
                     thebes.x = i;
                     thebes.y = j;
-                } else if(tmatrix[i][j] == 5) { // if it's oedipe
+                } else if(m.matrix[i][j] == 5) { // if it's oedipe
                     m.matrix[i][j] = 0;
                     oedipe.x = i;
                     oedipe.y = j;
-                } else if(tmatrix[i][j] == 6) { // if it's sphinx
+                } else if(m.matrix[i][j] == 6) { // if it's the sphinx
                     m.matrix[i][j] = 0;
                     sphinx.x = i;
                     sphinx.y = j;
-                } else if(tmatrix[i][j] == 2) { // if it's a wall
-                    m.matrix[i][j] = 2;
-                } else if(tmatrix[i][j] == 1) { // if it's water
-                    m.matrix[i][j] = 1;
-                }
+                } 
             }
         }
 
         // create the auxiliary structure
         ObjectivePosition positions;
-        positions.nbVillager  = randint(10) + 1; // default of a generated map is 3 mercenaries
+        positions.nbVillager  = randint(10) + 1;
         positions.mercenaries[0]= mercs[0];
         positions.mercenaries[1]= mercs[1];
         positions.mercenaries[2]= mercs[2];
