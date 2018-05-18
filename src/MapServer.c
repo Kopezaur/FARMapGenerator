@@ -56,7 +56,7 @@ struct Map generateMap(void)
     // members initialization
     srand ( time(NULL) );
     Map m;
-    size = randint(10) + 10;
+    size = randint(6) + 10;
     printf("Size = %d\n", size);
     int walls = randint((size*size)/4);
     printf("Walls = %d\n", walls);
