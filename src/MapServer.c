@@ -13,7 +13,7 @@
 #include <assert.h>
 #include "MapServer.h"
 
-#define PORT 7777
+#define PORT 5555
 
 // ----- Variables globales
 
@@ -54,7 +54,7 @@ int randint(int n) {
 struct Map generateMap(void)
 {
     // members initialization
-     srand ( time(NULL) );
+    srand ( time(NULL) );
     Map m;
     size = randint(10) + 10;
     printf("Size = %d\n", size);
@@ -68,7 +68,7 @@ struct Map generateMap(void)
     Position thebes;
     Position oedipe;
     Position sphinx;
-    bool cond = true;
+    int cond = 1;
 
     while(cond){
         // matrix initialization
@@ -194,10 +194,10 @@ struct Map generateMap(void)
         // create the main structure of the map
         m.objPos = positions;
 		m.mapSize = size; 
-        cond = false;
+        cond = 0;
     }
     return m;
-};
+}
 
 // ----- Function which generates the default maps
 
@@ -342,7 +342,7 @@ int main(void) {
 		/*pthread_create(&thr, NULL, thread, (void *) &clientSocket);
 		pthread_detach(thr);*/
 
-		char buffer[256];
+		char buffer[2048];
 
 		// R�ception de la requ�te
 		recv(clientSocket, buffer, sizeof(buffer), 0);
@@ -362,10 +362,9 @@ int main(void) {
 
 		} else if (strcmp(token, "random") == 0) {
 			
-			//MapGenerator map; // APPELER LA FONCTION
-			Map map;
+			Map map = generateMap();
 
-			if(send(clientSocket, (void*)&map, sizeof(map), 0) < 0) {
+			if(sendto(clientSocket, (void*)&map, sizeof(map), 0, (struct sockaddr*) &csin, sizeof(csin)) < 0) {
 				printf("ERROR : envoi de la carte\n");
 			} else {
 				printf("SUCCESS : carte envoyee\n");

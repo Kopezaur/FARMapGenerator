@@ -12,12 +12,12 @@
 #include <time.h>
 #include "MapServer.h"
 
-#define PORT 7777
+#define PORT 5555
 
 int main(void) {
 	
 	char buffer[256];
-	char bufferReceive[1024];
+	char bufferReceive[2048];
 
 	struct sockaddr_in sin;
 	int sock;
@@ -35,7 +35,7 @@ int main(void) {
 	connect(sock, (struct sockaddr*)&sin, sizeof(sin));
 	printf("Un client est connecte avec la socket %d de %s:%d\n", sock, inet_ntoa(sin.sin_addr), htons(sin.sin_port));
 
-	sprintf(buffer, "default");
+	sprintf(buffer, "random");
 
 	send(sock, buffer, sizeof(buffer), 0);
 
@@ -47,8 +47,8 @@ int main(void) {
 
 		printf("%d\n", map.objPos.nbVillager);
 
-        for(int i = 0; i < 15; i++){
-	        for(int j = 0; j < 15; j++){
+        for(int i = 0; i < map.mapSize; i++){
+	        for(int j = 0; j < map.mapSize; j++){
 	            printf("%d, ", map.matrix[i][j]);
 	        }
 	   		printf("\n");

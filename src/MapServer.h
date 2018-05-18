@@ -11,7 +11,6 @@ typedef struct ObjectivePosition
     Position thebes;
     Position oedipe;
     Position sphinx;
-	Position villagers[];
 } ObjectivePosition;
 
 typedef struct Map

@@ -16,5 +16,6 @@ typedef struct ObjectivePosition
 typedef struct Map
 {
 	int matrix[15][15];
+	int mapSize;
 	ObjectivePosition objPos;
 } Map;
